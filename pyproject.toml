@@ -1,0 +1,47 @@
+[project]
+name = "computer_vision_class"
+description = "A cool introductory practice to learn the basics for classical computer vision"
+readme = "README.md"
+requires-python = ">=3.10"
+version = "0.0.3"
+
+dependencies = [
+    "numpy>=1.21.2",
+    # "torch",
+    # "torchvision",
+    # "opencv-python",
+    "python-dotenv",
+    # "pytorch_lightning",
+    "pandas",
+    "scikit-learn",
+    "matplotlib",
+    "seaborn",
+    "scikit-image",
+    "albumentations",
+    "tqdm",
+    "pytest",
+    "ruff",
+    "tensorflow"
+]
+
+
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+select = [
+    "N",    # pep8-naming
+    "E",    # pycodestyle errors
+    "F",    # pyflakes
+    "I",    # isort
+    "C",    # flake8-comprehensions
+    "B",    # flake8-bugbear
+    "UP",   # pyupgrade
+    "PD",   # pandas vet
+    "NPY",  # NumPy-specific rules
+]
+ignore = [
+    "C901",  # Too complex 
+    "PD901", # Avoid using df for DataFrames
+]
