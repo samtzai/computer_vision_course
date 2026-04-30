@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+__author__ = 106360
+
 from pathlib import Path
 
 import matplotlib.patches as mpatches

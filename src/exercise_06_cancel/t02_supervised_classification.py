@@ -1,23 +1,27 @@
-from pathlib import Path
+# -*- coding: utf-8 -*-
+import numpy
+from mpl_toolkits.mplot3d import Axes3D
+from sklearn.cluster import KMeans
+from sklearn.naive_bayes import GaussianNB
+from sklearn.preprocessing import OneHotEncoder
+
+__author__ = 106360
 
 import matplotlib.patches as mpatches
 import matplotlib.pyplot as plt
-import numpy
 import pandas as pd
 import skimage
 import skimage.io
-from mpl_toolkits.mplot3d import Axes3D
 from skimage import data
 from skimage.color import label2rgb
 from skimage.filters import threshold_otsu
 from skimage.measure import label, regionprops
 from skimage.morphology import closing, square
 from skimage.segmentation import clear_border
-from sklearn.cluster import KMeans
-from sklearn.naive_bayes import GaussianNB
-from sklearn.preprocessing import OneHotEncoder
 
 from src.exercise_01.t01_load_image import visualizar_imagen, visualizar_imagenes
+
+from pathlib import Path
 
 output_folder = Path(__file__).parent.parent.parent / "outs" / Path(__file__).parent.name
 output_folder.mkdir(exist_ok=True, parents=True)

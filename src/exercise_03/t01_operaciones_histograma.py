@@ -4,8 +4,6 @@
 # Project = code
 # -----------------------
 
-from pathlib import Path
-
 import matplotlib.pyplot as plt
 import numpy as np
 import skimage
@@ -13,6 +11,7 @@ import skimage.exposure
 import skimage.io
 
 from src.exercise_01.t01_load_image import visualizar_imagen
+from pathlib import Path
 
 file_histo = "./data/histograma/cerebro_1.jpg"
 file_thres = "./data/histograma/bookpage.jpg"
@@ -26,7 +25,6 @@ file_windows = "./data/morfologicos/windows.jpg"
 
 output_folder = Path(__file__).parent.parent.parent / "outs" / Path(__file__).parent.name
 output_folder.mkdir(exist_ok=True, parents=True)
-
 
 def do_test01():
     # Calcular un histograma
@@ -44,10 +42,10 @@ def do_test01():
     hist, bins = np.histogram(img_in.ravel(), 256, [0, 1.0])
     plt.plot(hist)
     plt.savefig(output_folder / "fig_test01_histograma.png")
-    plt.show()
+    plt.show(block = True)
 
     # Con matplotlib
-    plt.hist(img_in.ravel() * 256, 256, [0, 256], color="r")
+    plt.hist(img_in.ravel()*256, 256, [0, 256], color="r")
     plt.xlim([0, 256])
     plt.show()
 

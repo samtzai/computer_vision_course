@@ -131,7 +131,7 @@ Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
   
   When VSCODE detect that you are creating a new environment, say yes
 
-<!-- ## Run/Debug a Jupyter-Notebook in VSCODE
+## Run/Debug a Jupyter-Notebook in VSCODE
 0) Open the notebook you want to run and make sure it is on the active tab.
 1) Press Run-All option to run all the notebook 
 ![Selecting environment](./assets/select_env.png)
@@ -141,7 +141,7 @@ If we want to debug step by step instead, we will go to the cell:
 1) press "Run-By-Line":
 2) press "run next line"
 ![Debugging Cell](./assets/cell_debug.png)
-Remember that you can set breakpoints (red-dots). Code execution will stop there. -->
+Remember that you can set breakpoints (red-dots). Code execution will stop there.
 
 ## Run/Debug a module in VSCODE
 1) Open the repository in VS Code

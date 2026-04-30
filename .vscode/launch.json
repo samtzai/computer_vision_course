@@ -24,6 +24,13 @@
             "request": "launch",
             "module": "src.exercise_01.t00_welcome2python",
             "console": "integratedTerminal"
+        }        ,
+        {
+            "name": "practica2_ej1",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "src.exercise_02.t01_operaciones_basicas",
+            "console": "integratedTerminal"
         },
         {
             "name": "src.exercise_01.t01_load_image",

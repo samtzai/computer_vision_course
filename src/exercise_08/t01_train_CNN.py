@@ -1,15 +1,17 @@
+# -*- coding: utf-8 -*-
+__author__ = 106360
 """
 https://colab.research.google.com/github/tensorflow/docs/blob/master/site/en/tutorials/images/cnn.ipynb
 """
-
-from pathlib import Path
-
 import matplotlib.pyplot as plt
 import tensorflow as tf
 from tensorflow.keras import datasets, layers, models
 
+from pathlib import Path
+
 output_folder = Path(__file__).parent.parent.parent / "outs" / Path(__file__).parent.name
 output_folder.mkdir(exist_ok=True, parents=True)
+
 
 
 (train_images, train_labels), (test_images, test_labels) = datasets.cifar10.load_data()

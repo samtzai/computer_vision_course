@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+__author__ = 106360
+
 """
 Leed el documento asociado sobre deep learning (o la charla de Aitor Álvarez) y haced lo siguiente:
 - Entrenar un modelo cifar10 con el script que os hemos dado (script T01_train_CNN.py)
@@ -8,14 +11,13 @@ Leed el documento asociado sobre deep learning (o la charla de Aitor Álvarez) y
         - Llamar a la función predict del modelo de keras para predecir.
 
 """
-
-from pathlib import Path
-
 import numpy
 import skimage
 import skimage.io
 import skimage.transform
 import tensorflow as tf
+
+from pathlib import Path
 
 output_folder = Path(__file__).parent.parent.parent / "outs" / Path(__file__).parent.name
 output_folder.mkdir(exist_ok=True, parents=True)

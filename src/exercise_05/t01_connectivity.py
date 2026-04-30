@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+__author__ = 106360
+
 import matplotlib
 
 matplotlib.use("Tkagg")
@@ -121,6 +124,7 @@ def do_test_image_granos_arroz():
     # apply threshold
     image = skimage.io.imread("./data/conectividad/rice.png")
 
+
     pass
 
 
@@ -198,6 +202,8 @@ def do_test_image_garbanzos():
     ax.set_axis_off()
     plt.tight_layout()
     plt.show()
+
+    
 
 
 if __name__ == "__main__":

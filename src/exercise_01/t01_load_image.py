@@ -3,13 +3,22 @@ __author__ = "mi_nombre_aqui"
 import os
 from pathlib import Path
 
-import matplotlib.pyplot as plt
-import numpy as np
-import skimage.io
+import matplotlib as mpl
 
-output_folder = (
-    Path(__file__).resolve().parent.parent.parent / "outs" / Path(__file__).resolve().parent.name
-)
+mpl.use("Tkagg")
+import matplotlib.pyplot as plt
+
+# Para escribir menos puedo poner alias a lo que importo:
+import numpy
+import numpy as np
+import scipy
+
+# Aquí importo las librerías que me resultan útiles
+import skimage
+import skimage.io
+import sklearn
+
+output_folder = Path(__file__).parent.parent.parent / "outs" / Path(__file__).parent.name
 output_folder.mkdir(exist_ok=True, parents=True)
 
 
@@ -35,10 +44,7 @@ def cargar_imagen(nombre_fichero):
     :param nombre_fichero: Nombre del fichero
     :return:
     """
-    path = Path(nombre_fichero)
-    if not path.exists():
-        raise FileNotFoundError(f"No existe el fichero: {nombre_fichero}")
-    imagen_rgb = skimage.io.imread(str(path))
+    imagen_rgb = skimage.io.imread(nombre_fichero)
     return imagen_rgb
 
 
@@ -50,11 +56,13 @@ def guardar_imagen(nombre_fichero, imagen_rgb):
     :return:
     """
     # Crea el directorio si no existe
-    path = Path(nombre_fichero)
-    if not path.parent.exists():
-        path.parent.mkdir(parents=True, exist_ok=True)
+    folder, filename = os.path.split(nombre_fichero)
+    try:
+        os.makedirs(folder)
+    except Exception:
+        pass
     # Guarda la imagen
-    skimage.io.imsave(str(path), imagen_rgb)
+    skimage.io.imwrite(nombre_fichero, imagen_rgb)
 
 
 def visualizar_imagen(
@@ -73,24 +81,27 @@ def visualizar_imagen(
     :return:
     """
 
-    fig, ax = plt.subplots(1, 1)
-    if imagen.ndim == 2:
+    fig, ax = plt.subplots(1, 1, sharex=True, sharey=True)
+    if len(imagen.shape) == 2:
         if rescale_colors:
             vmin = 0
             vmax = 1
             if np.ravel(imagen).max() > 1.0:
                 vmax = 255
-            ax.imshow(imagen, cmap="gray", vmin=vmin, vmax=vmax)
+            ax.imshow(imagen, cmap=plt.get_cmap("gray"), vmin=vmin, vmax=vmax)
         else:
-            ax.imshow(imagen, cmap="gray")
+            ax.imshow(imagen)
+
     else:
         ax.imshow(imagen)
     ax.set_title(titulo)
     if save_figure:
-        figure_path = Path(figure_save_path)
-        if not figure_path.parent.exists():
-            figure_path.parent.mkdir(parents=True, exist_ok=True)
-        plt.savefig(str(figure_path), dpi=600)
+        folder, filename = os.path.split(figure_save_path)
+        try:
+            os.makedirs(folder)
+        except Exception:
+            pass
+        plt.savefig(figure_save_path, dpi=600)
     plt.show(block=block)
 
 
@@ -111,57 +122,67 @@ def visualizar_imagenes(
     :param block: Permite que al visualizar la imagen en programa pare hasta cerrar la ventana
     :return:
     """
-    if n_row < 1 or n_col < 1:
-        raise ValueError("n_row and n_col must be >= 1")
-    fig, ax = plt.subplots(n_row, n_col, squeeze=False)
+    if n_row < 2:
+        raise Exception("n_row tiene que ser mayor que 2")
+    fig, ax = plt.subplots(n_row, n_col, sharex=True, sharey=True)
 
-    for idx, (imagen, titulo) in enumerate(zip(lista_imagen, lista_titulos)):
-        r = idx // n_col
-        c = idx % n_col
-        if r >= n_row:
-            break
-        try:
-            if imagen.ndim == 2:
-                if rescale_colors:
-                    ax[r, c].imshow(imagen, cmap="gray")
+    nc = 0
+    nr = 0
+    if n_col > 1:
+        for i, (imagen, titulo) in enumerate(zip(lista_imagen, lista_titulos, strict=True)):
+            try:
+                if len(imagen.shape) == 2:
+                    if rescale_colors:
+                        ax[nr, nc].imshow(imagen, cmap=plt.get_cmap("gray"))
+                    else:
+                        ax[nr, nc].imshow(imagen, cmap=plt.get_cmap("gray"))
                 else:
-                    ax[r, c].imshow(imagen, cmap="gray")
-            else:
-                ax[r, c].imshow(imagen)
-            ax[r, c].set_title(titulo)
-        except Exception:
-            pass
+                    ax[nr, nc].imshow(imagen)
+                ax[nr, nc].set_title(titulo)
+            except Exception:
+                pass
+            nr += 1
+            if nr == n_row:
+                nr = 0
+                nc += 1
+    else:
+        for i, (imagen, titulo) in enumerate(zip(lista_imagen, lista_titulos, strict=True)):
+            try:
+                if len(imagen.shape) == 2:
+                    ax[nr].imshow(imagen, cmap=plt.get_cmap("gray"))
+                else:
+                    ax[nr].imshow(imagen)
+                ax[nr].set_title(titulo)
+            except Exception:
+                pass
+            nr += 1
+            if nr == n_row:
+                nr = 0
+                nc += 1
 
     if save_figure:
-        figure_path = Path(figure_save_path)
-        if not figure_path.parent.exists():
-            figure_path.parent.mkdir(parents=True, exist_ok=True)
-        plt.savefig(str(figure_path), dpi=600)
+        folder, filename = os.path.split(figure_save_path)
+        try:
+            os.makedirs(folder)
+        except Exception:
+            pass
+        plt.savefig(figure_save_path, dpi=600)
     plt.show(block=block)
 
 
 # Es buena costumbre meter este if al final para evitar que se ejecute código al importar este script desde otro.
 if __name__ == "__main__":
-    output_folder = (
-        Path(__file__).resolve().parent.parent.parent
-        / "outs"
-        / Path(__file__).resolve().parent.name
-    )
+    output_folder = Path(__file__).parent.parent.parent / "outs" / Path(__file__).parent.name
     output_folder.mkdir(exist_ok=True, parents=True)
 
-    file_path = Path("./data/underwater/Ancuti01.png")
-    try:
-        imagen_rgb = cargar_imagen(file_path)
-        pixel_info = imagen_rgb[20, 30, :]
-        image_file_path = output_folder / "image_out.png"
-        visualizar_imagen(
-            imagen_rgb,
-            titulo=f"El valor RGB del pixel (20,30) es {pixel_info[0]},{pixel_info[1]},{pixel_info[2]}",
-            save_figure=True,
-            figure_save_path=str(image_file_path),
-        )
-    except FileNotFoundError:
-        print(
-            f"Fichero de ejemplo no encontrado: {file_path}. Ejecuta desde la raíz del repo o coloca el archivo."
-        )
+    file_path = "./data/underwater/Ancuti01.png"
+    imagen_rgb = cargar_imagen(file_path)
+    pixel_info = imagen_rgb[20, 30, :]
+    image_file_path = output_folder / "image_out.png"
+    visualizar_imagen(
+        imagen_rgb,
+        titulo=f"Artzai, El valor RGB del pixel (20,30) es {pixel_info[0]},{pixel_info[1]},{pixel_info[2]}",
+        save_figure=True,
+        figure_save_path=image_file_path,
+    )
     print("fin")

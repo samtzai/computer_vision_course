@@ -1,4 +1,5 @@
-__author__ = "mi_nombre_aqui"
+# -*- coding: utf-8 -*-
+__author__ = "adios"
 
 from pathlib import Path
 
@@ -24,7 +25,7 @@ output_folder.mkdir(exist_ok=True, parents=True)
 
 def do_test01():
     """
-    NOMBRE:
+    NOMBRE: Artzai
     TODO:
         COMENTA LO QUE HACE EL CÓDIGO
         Respuesta:
@@ -318,8 +319,8 @@ def do_test09():
 
 
 if __name__ == "__main__":
-    do_test01()
-    # do_test02()
+    # do_test01()
+    do_test02()
     # do_test03()
     # do_test04()
     # do_test05()

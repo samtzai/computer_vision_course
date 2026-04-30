@@ -4,8 +4,6 @@
 # Project = code
 # -----------------------
 
-from pathlib import Path
-
 import matplotlib.pyplot as plt
 import numpy as np
 import skimage
@@ -13,7 +11,7 @@ import skimage.io
 from skimage.filters import threshold_local, threshold_otsu
 
 from src.exercise_01.t01_load_image import visualizar_imagen, visualizar_imagenes
-
+from pathlib import Path
 output_folder = Path(__file__).parent.parent.parent / "outs" / Path(__file__).parent.name
 output_folder.mkdir(exist_ok=True, parents=True)
 
