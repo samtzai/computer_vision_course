@@ -5,9 +5,10 @@ __author__ = "Artzai"
    Te enseña ausar lo básico de python y numpy
 """
 # cuidado con esto hola
-#cambio remoto
+# cambio remoto
 # vaya liada
 # Para escribir menos puedo poner alias a lo que importo:
+import matplotlib.pyplot as plt
 import numpy
 import numpy as np
 import scipy
@@ -16,7 +17,6 @@ import scipy
 import skimage
 import sklearn
 
-import matplotlib.pyplot as plt
 # Operaciones basicas de Python
 
 # un comentario se hace con almohadilla
@@ -41,7 +41,7 @@ print(B)
 A[0, :] = 0
 A[:, 0] = 0
 A[:, 7] = 0
-A[:,3] = 2
+A[:, 3] = 2
 A[7, :] = 0
 print(A)
 
@@ -63,23 +63,23 @@ if imagen.shape[0] > 10:
     print("esto está dentro del if")
 else:
     print("La imagen es pequeña")
-    
+
 print("esto no está dentro del else porque no está indentado")
 
 # Este for cuenta de cero al nueve
 for i in range(10):
     print(i)
 
-milista = ['perro', 'gato', 'elefante']
+milista = ["perro", "gato", "elefante"]
 for elemento in milista:
     print(elemento)
 
 for i, elemento in enumerate(milista):
     print(i)
     print(elemento)
-    
+
 for i in range(len(milista)):
-    print(i)    
+    print(i)
     print(milista[i])
 
 # prueba
