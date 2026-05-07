@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
+from pathlib import Path
+
 import scipy.ndimage
 import skimage
 import skimage.filters
 
 from src.exercise_01.t01_load_image import visualizar_imagen, visualizar_imagenes
-from pathlib import Path
+
 __author__ = 106360
 
 import cv2
