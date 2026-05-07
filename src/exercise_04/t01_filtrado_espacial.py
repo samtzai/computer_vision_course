@@ -30,19 +30,23 @@ output_folder.mkdir(exist_ok=True, parents=True)
 
 def add_noise_to_image(noise_typ, image):
     rng = np.random.default_rng()
+    image_shape = image.shape
+    is_color = image.ndim == 3
 
     if noise_typ == "gauss":
-        row, col, ch = image.shape
         mean = 0
         var = 0.1
         sigma = var**0.5
-        gauss = rng.normal(mean, sigma, (row, col, ch))
-        gauss = gauss.reshape(row, col, ch)
+        if is_color:
+            row, col, ch = image_shape
+            gauss = rng.normal(mean, sigma, (row, col, ch))
+        else:
+            row, col = image_shape
+            gauss = rng.normal(mean, sigma, (row, col))
         noisy = image + gauss
         return noisy
 
     elif noise_typ == "s&p":
-        row, col, ch = image.shape
         s_vs_p = 0.5
         amount = 0.01
         out = np.copy(image)
@@ -65,9 +69,12 @@ def add_noise_to_image(noise_typ, image):
         return noisy
 
     elif noise_typ == "speckle":
-        row, col, ch = image.shape
-        gauss = rng.normal(0.0, 1.0, (row, col, ch))
-        gauss = gauss.reshape(row, col, ch)
+        if is_color:
+            row, col, ch = image_shape
+            gauss = rng.normal(0.0, 1.0, (row, col, ch))
+        else:
+            row, col = image_shape
+            gauss = rng.normal(0.0, 1.0, (row, col))
         noisy = image + image * gauss
         return noisy
 
