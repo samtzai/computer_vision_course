@@ -27,12 +27,14 @@ output_folder.mkdir(exist_ok=True, parents=True)
 
 
 def add_noise_to_image(noise_typ, image):
+    rng = np.random.default_rng()
+
     if noise_typ == "gauss":
         row, col, ch = image.shape
         mean = 0
         var = 0.1
         sigma = var**0.5
-        gauss = np.random.normal(mean, sigma, (row, col, ch))
+        gauss = rng.normal(mean, sigma, (row, col, ch))
         gauss = gauss.reshape(row, col, ch)
         noisy = image + gauss
         return noisy
@@ -45,24 +47,24 @@ def add_noise_to_image(noise_typ, image):
 
         # Salt mode
         num_salt = np.ceil(amount * image.size * s_vs_p)
-        coords = [np.random.randint(0, i - 1, int(num_salt)) for i in image.shape]
+        coords = tuple(rng.integers(0, i, int(num_salt)) for i in image.shape)
         out[coords] = 1
 
         # Pepper mode
         num_pepper = np.ceil(amount * image.size * (1.0 - s_vs_p))
-        coords = [np.random.randint(0, i - 1, int(num_pepper)) for i in image.shape]
+        coords = tuple(rng.integers(0, i, int(num_pepper)) for i in image.shape)
         out[coords] = 0
         return out
 
     elif noise_typ == "poisson":
         vals = len(np.unique(image))
         vals = 2 ** np.ceil(np.log2(vals))
-        noisy = np.random.poisson(image * vals) / float(vals)
+        noisy = rng.poisson(image * vals) / float(vals)
         return noisy
 
     elif noise_typ == "speckle":
         row, col, ch = image.shape
-        gauss = np.random.randn(row, col, ch)
+        gauss = rng.normal(0.0, 1.0, (row, col, ch))
         gauss = gauss.reshape(row, col, ch)
         noisy = image + image * gauss
         return noisy
@@ -205,8 +207,8 @@ def do_test_frangi():
 
 
 if __name__ == "__main__":
-    # do_test_efectos_filtros_lineales()
+    do_test_efectos_filtros_lineales()
     # do_test_restauracion_imagen()
     # do_test_afilado_imagen()
 
-    do_test_gradiente_imagen()
+    # do_test_gradiente_imagen()
